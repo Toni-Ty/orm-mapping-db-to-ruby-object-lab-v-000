@@ -14,9 +14,9 @@ class Student
     # retrieve all the rows from the "Students" database
     # remember each row should be a new instance of the Student class
     sql = <<-SQL
-  SELECT *
-  FROM students
-  SQL
+      SELECT *
+      FROM students
+    SQL
 
   end
 
@@ -59,6 +59,18 @@ def self.students_below_12th_grade
    end
  end
 
+def self.first_X_students_in_grade_10(num_students)
+  sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    LIMIT ?
+  SQL
+
+  DB[:conn].execute(sql).map do |row|
+     self.new_from_db(row)
+   end
+ end
 
   def save
     sql = <<-SQL
